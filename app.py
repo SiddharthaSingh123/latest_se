@@ -3,22 +3,27 @@ import os
 import time
 import stripe
 from werkzeug.utils import secure_filename
-from flask import abort, send_from_directory
-from flask import current_app, url_for
+from flask import send_from_directory
 from flask import Flask, request, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_cors import CORS
 from config import Config
 from models import db, User, Product
 from datetime import datetime
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 
 def create_app():
-    # Serve frontend static files from the frontend/ folder
     app = Flask(__name__, static_folder='frontend', static_url_path='')
     app.config.from_object(Config)
 
-    # --- Upload configuration ---
     upload_folder = os.path.join(app.root_path, 'static', 'uploads')
     os.makedirs(upload_folder, exist_ok=True)
     app.config['UPLOAD_FOLDER'] = upload_folder
@@ -34,17 +39,12 @@ def create_app():
 
     db.init_app(app)
 
-    # Use STRIPE_SECRET_KEY from config/environment
     cfg_key = app.config.get("STRIPE_SECRET_KEY")
     if cfg_key:
         stripe.api_key = cfg_key
 
-    # Base URL for production (frontend hosted on Vercel)
     BASE_URL = app.config.get("BASE_URL", "https://home2hope.vercel.app")
 
-
-
-    # Allow frontend (Vercel) + local dev to access backend
     CORS(
         app,
         supports_credentials=True,
@@ -71,8 +71,6 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-
-    # --- API routes ---
 
     @app.route('/api/register', methods=['POST'])
     def register():
@@ -125,8 +123,6 @@ def create_app():
         else:
             return jsonify({'authenticated': False}), 200
 
-    # ----------------- Product endpoints -----------------
-
     @app.route('/api/products', methods=['POST'])
     @login_required
     def create_product():
@@ -146,13 +142,11 @@ def create_app():
             if file and file.filename:
                 if not allowed_file(file.filename):
                     return jsonify({'error': 'file type not allowed'}), 400
-                filename = secure_filename(file.filename)
-                prefix = str(int(time.time()))
-                owner_part = f"_{current_user.id}" if getattr(current_user, 'id', None) else ""
-                filename = f"{prefix}{owner_part}_{filename}"
-                dest = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(dest)
-                image_url = url_for('uploaded_file', filename=filename, _external=False)
+                try:
+                    upload_result = cloudinary.uploader.upload(file)
+                    image_url = upload_result.get("secure_url", "")
+                except Exception as e:
+                    return jsonify({'error': f'image upload failed: {str(e)}'}), 500
         else:
             data = request.get_json() or {}
             title = data.get('title') or data.get('prodName') or data.get('name')
@@ -190,7 +184,6 @@ def create_app():
         products = Product.query.filter_by(owner_id=current_user.id).order_by(Product.created_at.desc()).all()
         return jsonify([p.to_dict() for p in products]), 200
 
-    # ----------------- Stripe Checkout -----------------
     @app.route('/api/create-checkout-session', methods=['POST'])
     @login_required
     def create_checkout_session():
@@ -239,7 +232,6 @@ def create_app():
             print("Stripe session creation error:", e)
             return jsonify({'error': str(e)}), 500
 
-    # ----------------- Serve frontend static files -----------------
     @app.route('/', methods=['GET'])
     def serve_index():
         return app.send_static_file('index.html')
@@ -253,7 +245,6 @@ def create_app():
     return app
 
 
-# 🌟 WSGI entrypoint for Gunicorn
 app = create_app()
 
 if __name__ == '__main__':
