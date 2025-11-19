@@ -40,7 +40,8 @@ def create_app():
         stripe.api_key = cfg_key
 
     # Base URL for production (frontend hosted on Vercel)
-    BASE_URL = app.config.get("BASE_URL", "https://home2hope.onrender.com")
+    BASE_URL = app.config.get("BASE_URL", "https://home2hope.vercel.app")
+
 
 
     # Allow frontend (Vercel) + local dev to access backend
@@ -52,7 +53,7 @@ def create_app():
                 "origins": [
                     "http://127.0.0.1:5000",
                     "http://localhost:5000",
-                    "https://hometohope.vercel.app",
+                    "https://home2hope.vercel.app",
                 ]
             }
         },
