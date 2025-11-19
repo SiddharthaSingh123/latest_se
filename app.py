@@ -39,9 +39,23 @@ def create_app():
     if cfg_key:
         stripe.api_key = cfg_key
 
-    BASE_URL = app.config.get("BASE_URL", "http://127.0.0.1:5000")
+    # Base URL for production (frontend hosted on Vercel)
+    BASE_URL = app.config.get("BASE_URL", "https://hometohope.vercel.app")
 
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": ["http://127.0.0.1:5000"]}})
+    # Allow frontend (Vercel) + local dev to access backend
+    CORS(
+        app,
+        supports_credentials=True,
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://127.0.0.1:5000",
+                    "http://localhost:5000",
+                    "https://hometohope.vercel.app",
+                ]
+            }
+        },
+    )
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -114,11 +128,6 @@ def create_app():
     @app.route('/api/products', methods=['POST'])
     @login_required
     def create_product():
-        """
-        Accept either:
-         - multipart/form-data with a file field named 'image', or
-         - application/json with fields: title, description, price, image_url
-        """
         title = None
         description = ''
         price = None
@@ -153,9 +162,7 @@ def create_app():
             return jsonify({'error': 'title required'}), 400
 
         try:
-            price_val = None
-            if price is not None and price != '':
-                price_val = float(price)
+            price_val = float(price) if price not in [None, ''] else None
         except (ValueError, TypeError):
             return jsonify({'error': 'invalid price'}), 400
 
@@ -214,7 +221,7 @@ def create_app():
                 })
 
             if not line_items:
-                return jsonify({'error': 'no valid line items (check price values)'}), 400
+                return jsonify({'error': 'no valid line items'}), 400
 
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
@@ -243,6 +250,8 @@ def create_app():
 
     return app
 
+
+# 🌟 WSGI entrypoint for Gunicorn
 app = create_app()
 
 if __name__ == '__main__':
