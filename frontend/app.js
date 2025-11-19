@@ -1,7 +1,10 @@
 // frontend/app.js
 
 // 🔹 Backend base URL on Render
-const API = "/api";
+const API_BASE = "https://latest-se.onrender.com";
+
+// Base API path (goes to Render, not same origin)
+const API = `${API_BASE}/api`;
 
 // Helper: show messages if an element exists
 function showMsg(id, text) {
