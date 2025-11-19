@@ -1,0 +1,113 @@
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+        <script>
+            // Your web app's Firebase configuration
+             //env variables
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            // Get a reference to the database service
+            var database = firebase.database();
+        </script>
+
+        <div class="container-fluid">
+            <div class="row" style="padding-top: 10px;">
+                <div class="col-12 col-lg-5 order-lg-2">
+                    <div class="col-12" style="text-align: center;">
+                        <h2 style="color: #961e47;">Sell Products</h2>
+                        <h5 style="padding-top: 10px;">
+                            Post your handmade products on Home2Hope for sale
+                        </h5>
+                    </div>
+                    <form id="sell-product-form">
+                        <div class="col-6">
+                            <label id="labelName" for="name">Product Name<sup>*</sup></label>
+                            <input type="text" id="prodName" onfocus="purple(event)" name="name" style="width: 100%;" title="Product name" />
+                        </div>
+                        <div class="col-6">
+                            <label id="labelCategory" for="category">Category<sup>*</sup></label>
+                            <div class="dropdown" style="padding-top: 21px;">
+                                <select class="form-control category-btn" id="categoryList" name="category">
+                                    <option value="none" selected disabled hidden>Select Category*</option>
+                                    <option value="Pottery">Pottery</option>
+                                    <option value="Decorative Artifacts">Decorative Artifacts</option>
+                                    <option value="Embroidered Materials">Embroidered Materials</option>
+                                    <option value="Knitting/Weaving">Knitting/Weaving</option>
+                                    <option value="Healthy home-made snacks">Healthy home-made snacks</option>
+                                    <option value="Handicrafts">Handicrafts</option>
+                                    <option value="Jewellery">Jewellery</option>
+                                    <option value="Paintings">Paintings</option>
+                                    <option value="Baking">Baking</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label id="labelDesc" for="description">Product Description<sup>*</sup></label>
+                            <textarea id="prodDesc" onfocus="purple(event)" style="width: 100%; min-height: 100px;" name="description" title="Prod description"></textarea>
+                        </div>
+                        <div class="col-6">
+                            <label id="labelPrice" for="price">Product Price<sup>*</sup></label>
+                            <input type="number" onfocus="purple(event)" id="prodPrice" name="price" style="width: 100%;" title="Product price" />
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 style="margin-top: 45px; font-weight: 400; text-align: end;">
+                                        Price Negotiable
+                                    </h6>
+                                </div>
+                                <div class="col-6">
+                                    <label class="switch">
+                                        <input type="checkbox" id="prodNeg" name="negotiable" value="false">
+                                        <div class="slider round"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 order-lg-1 d-none d-lg-block"  style="background: url('./images/Capture2.PNG') center center;background-image: contain; background-repeat: no-repeat; background-size: 650px 520px;">
+                            <input class="btn" type="submit" value="Submit" id="submit-btn" style="color:white" onclick="submitProduct()" />
+                        </div>
+                    </form>
+
+            <script>
+                // Define the Firebase configuration
+                var firebaseConfig = {
+                    apiKey: "AIzaSyD1ZXf5jC_AZZJ-oCvX9VWc-Dg1aF_Jz1o",
+                authDomain: "pragati-web-app.firebaseapp.com",
+                databaseURL: "https://pragati-88314-default-rtdb.firebaseio.com",
+                projectId: "pragati-web-app",
+                storageBucket: "pragati-web-app.appspot.com",
+                messagingSenderId: "1072948419095",
+                appId: "1:1072948419095:web:d02d9b70d4873568170515",
+                measurementId: "G-8K6QW4YXMX"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                var database = firebase.database();
+
+                function submitProduct() {
+                    event.preventDefault();
+                    var name = document.getElementById('prodName').value;
+                    var category = document.getElementById('categoryList').value;
+                    var description = document.getElementById('prodDesc').value;
+                    var price = document.getElementById('prodPrice').value;
+                    var negotiable = document.getElementById('prodNeg').checked;
+
+                    database.ref('products').push().set({
+                        name: name,
+                        category: category,
+                        description: description,
+                        price: price,
+                        negotiable: negotiable
+                    }).then(function() {
+                        alert("Product added successfully!");
+                        location.reload();
+                    }).catch(function(error) {
+                        console.error(error);
+                        alert("Error adding product: " + error.message);
+                    });
+                }
+            </script>

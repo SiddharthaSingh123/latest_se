@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home2Hope | Cart</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="./styles/buyProducts.css" />
+</head>
+<body>
+  <!-- reuse your navbar (keep same markup you already use) -->
+  <!-- ... you can include your existing navbar markup here ... -->
+
+  <div class="container py-5">
+    <h2 class="mb-4">Your Cart</h2>
+
+    <div id="cartContainer"></div>
+
+    <div id="cartEmpty" class="text-center py-5" style="display:none;">
+      <p class="lead">Your cart is empty.</p>
+      <a href="buy-products.html" class="btn btn-outline-primary">Continue shopping</a>
+    </div>
+
+    <div id="cartSummary" style="display:none;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <strong>Total:</strong>
+          <span id="cartTotal">₹0</span>
+        </div>
+        <div>
+          <button id="checkoutBtn" class="btn btn-success">Proceed to Checkout</button>
+        </div>
+      </div>
+      <div>
+        <small class="text-muted">You will be redirected to Stripe's secure checkout page to complete payment (test mode).</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+  <script src="/js/cart.js"></script>
+</body>
+</html>

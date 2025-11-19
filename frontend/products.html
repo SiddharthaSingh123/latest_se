@@ -1,0 +1,36 @@
+<!-- product.html (put in frontend/) -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Product</title></head>
+<body>
+  <div id="product"></div>
+  <button id="addToCart">Add to cart</button>
+
+  <script>
+    // read product id from ?id=...
+    function qs(name){ return new URLSearchParams(location.search).get(name); }
+    const id = qs('id');
+    async function load(){
+      const res = await fetch('/api/products');
+      const all = await res.json();
+      const p = all.find(x => String(x.id) === String(id) || String(x.product_id) === String(id));
+      if(!p){ document.getElementById('product').innerText='Not found'; return; }
+      document.getElementById('product').innerHTML = `
+        <h2>${p.title}</h2>
+        <img src="${p.image_url||'/images/home.jpg'}" style="max-width:400px;">
+        <p>${p.description||''}</p>
+        <p>Price: ₹${p.price}</p>
+      `;
+      document.getElementById('addToCart').onclick = () => {
+        const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+        const existing = cart.find(i=>String(i.product_id)===String(p.id));
+        if(existing) existing.quantity++;
+        else cart.push({product_id: p.id, quantity: 1});
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Added to cart');
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

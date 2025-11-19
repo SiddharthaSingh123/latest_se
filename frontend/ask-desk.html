@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home2Hope | Ask Desk</title>
+
+  <!-- Bootstrap & Icons -->
+  <link rel="icon" type="image/x-icon" href="./images/favicon/favicon.ico">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+  <link rel="manifest" href="images/favicon/site.webmanifest" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./styles/askDesk.css" />
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+
+<body>
+  <div id="sos"></div>
+  <div id="fake-modal-container"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/Home2Hope-logo.png" alt="Home2Hope-logo" style="height:60px; width:100px;">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- CENTERED menu -->
+      <ul class="navbar-nav mx-auto text-center">
+        <li class="nav-item dropdown" style="padding-left: 30px; padding-right: 30px;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProducts" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="color: #961e47;">
+            PRODUCTS
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownProducts">
+            <a class="dropdown-item" href="buy-products.html">Buy Products</a>
+            <a class="dropdown-item" href="sell-products.html">Sell Products</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown" style="padding-left: 30px; padding-right: 30px;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="color: #961e47;">
+            SERVICES
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+            <a class="dropdown-item" href="post-services.html">Post Services</a>
+          </div>
+        </li>
+
+        <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+          <a class="nav-link" href="ask-desk.html" style="color: #961e47;">ASK DESK</a>
+        </li>
+
+        <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+          <a class="nav-link" href="news.html" style="color: #961e47;">WOMEN IN NEWS</a>
+        </li>
+
+        <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+          <a class="nav-link" href="fight-crimes.html" style="color: #961e47;">
+            REPORT CRIME <span class="badge badge-secondary" style="margin-left: 6px;">New</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- RIGHT side: auth / user area -->
+      <ul class="navbar-nav">
+        <!-- When not logged in -->
+        <li class="nav-item" id="navSignup" style="padding-right: 10px;">
+          <a class="nav-link" href="signup.html" style="color: #961e47;"><i class="fas fa-user-plus"></i> Signup</a>
+        </li>
+
+        <li class="nav-item" id="navLogin" style="padding-right: 20px;">
+          <a class="nav-link" href="login.html" style="color: #961e47;"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </li>
+
+        <!-- User dropdown (hidden by default) -->
+        <li class="nav-item dropdown" id="navUser" style="display:none;">
+          <a class="nav-link dropdown-toggle" href="#" id="navUserDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="color: #961e47;">
+            <span id="navUsername">User</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navUserDropdown">
+            <a class="dropdown-item" href="profile.html">Profile</a>
+            <a class="dropdown-item" href="#" id="navLogout">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+
+  <div class="container-fluid" style="background-color: #faf1ed; padding-bottom: 100px;">
+    <div class="row">
+      <h1 class="mt-5 pt-3 ml-5 pl-5" style="color: #961e47; font-weight: bolder; font-size: 60px;">Ask Desk</h1>
+      <div class="col-12 text-center">
+        <h3 class="pt-3" style="color: #da8979; font-weight: bolder;">We rise by lifting others</h3>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 30px;">
+      <div class="col-lg-3 col-md-3"></div>
+      <div class="col-lg-6 col-md-6">
+        <input type="text" id="quesSearch" style="width: 100%; height: 60px; font-size: 20px;"
+          placeholder="Search for question" />
+        <i class="fa fa-search"
+          style="font-size: 20px; color: #961e47; position: absolute; transform: translate(-36px, 20px);"
+          onclick="searchQuestion()"></i>
+      </div>
+    </div>
+
+    <ul id="questionList" class="list-group"></ul>
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <h5 style="padding-top: 50px;">Didn't find what you were looking for?</h5>
+        <br />
+        <a href="#" style="color: blue; text-decoration: none;" data-toggle="modal" data-target="#askModal">
+          <h5>Post your question here.</h5>
+        </a>
+      </div>
+    </div>
+
+    <!-- Question Modal -->
+    <div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="askModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="askModalLabel">Post Your Question</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <textarea id="postQuest" style="width: 100%; min-height: 50px; border:2px solid #f1cdc5"
+              placeholder="Question"></textarea>
+            <textarea id="postDesc" style="width: 100%; min-height: 100px; border:2px solid #f1cdc5"
+              placeholder="Description"></textarea>
+          </div>
+          <div class="modal-footer text-center">
+            <button type="button" class="btn" style="background-color: #961e47; color: white"
+              onclick="saveQuestion()">Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container-fluid my-3 justify-content-center" id="askdesk-content"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="col-12" style="padding: 30px 0px; font-weight: bolder;">
+      &copy; Home2Hope 2025 | 405Found
+      <a href="index.html" style="text-decoration: none;">About Us</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/ask-desk.js"></script>
+  <script src="./js/sos.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+  <script>
+    // Firebase setup (replace 'config' with your Firebase config)
+    firebase.initializeApp(config);
+    const db = firebase.database();
+
+    firebase.database().ref('questions').orderByChild('question').on('value', snapshot => {
+      const list = document.getElementById("questionList");
+      list.innerHTML = "";
+      snapshot.forEach(child => {
+        const q = child.val();
+        const li = document.createElement('li');
+        li.classList.add('list-group-item');
+        li.innerHTML = q.question + "<br>" + q.description;
+        list.appendChild(li);
+      });
+    });
+
+    function searchQuestion() {
+      const question = document.getElementById("quesSearch").value;
+      firebase.database().ref('questions').orderByChild('question').startAt(question).endAt(question + "\uf8ff").on('value', snapshot => {
+        const list = document.getElementById("questionList");
+        list.innerHTML = "";
+        snapshot.forEach(child => {
+          const q = child.val();
+          const li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.innerHTML = q.question + "<br>" + q.description;
+          list.appendChild(li);
+        });
+      });
+    }
+
+    function saveQuestion() {
+      const question = document.getElementById('postQuest').value;
+      const desc = document.getElementById('postDesc').value;
+      db.ref('questions/').push().set({ question, description: desc });
+      $('#askModal').modal('hide');
+      document.getElementById('postQuest').value = '';
+      document.getElementById('postDesc').value = '';
+      Swal.fire({ icon: 'success', title: 'Question posted successfully', showConfirmButton: false, timer: 1500 });
+    }
+  </script>
+
+  <!-- Auth check for navbar -->
+  <script>
+    (async function () {
+      const $ = id => document.getElementById(id);
+      try {
+        const res = await fetch('/api/user', { credentials: 'include' });
+        const body = await res.json().catch(() => null);
+        console.log('AUTH CHECK (ask-desk):', res.status, body);
+
+        if (body && body.authenticated) {
+          const username = (body.user && (body.user.username || body.user.email)) || 'User';
+          if ($('navSignup')) $('navSignup').style.display = 'none';
+          if ($('navLogin')) $('navLogin').style.display = 'none';
+          if ($('navUser')) {
+            $('navUser').style.display = '';
+            if ($('navUsername')) $('navUsername').innerText = username;
+          }
+          const logout = $('navLogout');
+          if (logout) logout.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+            window.location.reload();
+          });
+        } else {
+          if ($('navSignup')) $('navSignup').style.display = '';
+          if ($('navLogin')) $('navLogin').style.display = '';
+          if ($('navUser')) $('navUser').style.display = 'none';
+        }
+      } catch (err) {
+        console.error('Auth check error', err);
+        if ($('navSignup')) $('navSignup').style.display = '';
+        if ($('navLogin')) $('navLogin').style.display = '';
+        if ($('navUser')) $('navUser').style.display = 'none';
+      }
+    })();
+  </script>
+
+</body>
+</html>

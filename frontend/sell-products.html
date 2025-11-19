@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home2Hope | Sell Products</title>
+    <!-- Bootstrap CDN -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="images/favicon/site.webmanifest" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="./styles/sellProducts.css" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
+    <script>
+        function purple(event) {
+            event.target.style.borderColor = "#961e47";
+            event.target.style.borderWidth = "2px";
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="sos"></div>
+    <div id="main-page">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/Home2Hope-logo.png" alt="Home2Hope-logo" style="height:60px; width:100px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item dropdown" style="padding-left: 30px; padding-right: 30px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" style="color: #961e47;">
+                            PRODUCTS
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="buy-products.html">Buy Products</a>
+                            <a class="dropdown-item" href="sell-products.html">Sell Products</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" style="padding-left: 30px; padding-right: 30px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" style="color: #961e47;">
+                            SERVICES
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="post-services.html">Post Services</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+                        <a class="nav-link" href="ask-desk.html" style="color: #961e47;">ASK DESK</a>
+                    </li>
+                    <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+                        <a class="nav-link" href="news.html" style="color: #961e47;">WOMEN IN NEWS</a>
+                    </li>
+                    <li class="nav-item" style="padding-left: 30px; padding-right: 30px;">
+                        <a class="nav-link" href="fight-crimes.html" style="color: #961e47;">REPORT CRIME <span
+                                class="badge badge-secondary" style="margin-left: 6px;">New</span></a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav ml-auto" id="login-signup">
+                    <!-- This nav area will be toggled by app.js -->
+                    <li class="nav-item" id="navSignup" style="padding-right: 10px;">
+                        <a class="nav-link" href="signup.html" style="color: #961e47;"><i
+                                class="fas fa-user-plus"></i> Signup</a>
+                    </li>
+
+                    <li class="nav-item" id="navLogin" style="padding-right: 80px;">
+                        <a class="nav-link" href="login.html" style="color: #961e47;"><i
+                                class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+
+                    <li class="nav-item dropdown" id="navUser" style="display:none; padding-right: 80px;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navUserDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="navUsername">User</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navUserDropdown">
+                            <a class="dropdown-item" href="profile.html">Your Profile</a>
+                            <a class="dropdown-item" href="#" id="navLogout">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End of Navbar -->
+
+        <div class="container-fluid">
+            <div class="row" style="padding-top: 2px; display: flex; justify-content: center;">
+                <div class="col-12 col-lg-12 order-lg-7" style="display: flex; flex-direction: column; align-items: center;">
+
+                    <div class="col-3" style="text-align: center;">
+                        <h2 style="color: #961e47;">Sell Products</h2>
+                        <h5 style="padding-top: 10px;">
+                            Post your handmade products on Home2Hope for sale
+                        </h5>
+                    </div>
+
+                    <form id="sell-product-form" style="margin: 0 auto; width:100%; max-width:900px;">
+                        <div class="col-6" style="width:100%; margin-bottom:12px;">
+                            <label id="labelName" for="name">Product Name<sup>*</sup></label>
+                            <input type="text" id="prodName" onfocus="purple(event)" name="name" style="width: 100%;"
+                                title="Product name" />
+                        </div>
+                        <div class="col-6" style="width:100%; margin-bottom:12px;">
+                            <label id="labelCategory" for="category">Category<sup>*</sup></label>
+                            <div class="dropdown" style="padding-top: 8px;">
+                                <select class="form-control category-btn" id="categoryList" name="category">
+                                    <option value="none" selected disabled hidden>Select Category*</option>
+                                    <option value="Pottery">Pottery</option>
+                                    <option value="Decorative Artifacts">Decorative Artifacts</option>
+                                    <option value="Embroidered Materials">Embroidered Materials</option>
+                                    <option value="Knitting/Weaving">Knitting/Weaving</option>
+                                    <option value="Healthy home-made snacks">Healthy home-made snacks</option>
+                                    <option value="Handicrafts">Handicrafts</option>
+                                    <option value="Jewellery">Jewellery</option>
+                                    <option value="Paintings">Paintings</option>
+                                    <option value="Baking">Baking</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12" style="width:100%; margin-bottom:12px;">
+                            <label id="labelDesc" for="description">Product Description<sup>*</sup></label>
+                            <textarea id="prodDesc" onfocus="purple(event)" style="width: 100%; min-height: 100px;"
+                                name="description" title="Prod description"></textarea>
+                        </div>
+                        <div class="col-6" style="width:100%; margin-bottom:12px;">
+                            <label id="labelImages" for="prod_image_file">Upload Product Image (from PC)</label>
+                            <input type="file" id="prod_image_file" name="prod_image_file" accept="image/*" style="width:100%; padding:6px;"/>
+                        </div>
+                        <div class="col-6" style="width:100%; margin-bottom:12px;">
+                            <label id="labelPrice" for="price">Product Price<sup>*</sup></label>
+                            <input type="number" onfocus="purple(event)" id="prodPrice" name="price"
+                                style="width: 100%;" title="Product price" />
+                        </div>
+                        <div class="col-6" style="width:100%; margin-bottom:12px;">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 style="margin-top: 8px; font-weight: 400; text-align: left;">
+                                        Price Negotiable
+                                    </h6>
+                                </div>
+                                <div class="col-6" style="display:flex; align-items:center;">
+                                    <label class="switch" style="margin-left:auto;">
+                                        <input type="checkbox" id="prodNeg" name="negotiable" value="false">
+                                        <div class="slider round"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12" style="margin-top: 20px; text-align: center; margin-bottom: 60px;">
+                            <button class="btn btn-primary px-5 py-2" type="button" id="btnAddProduct">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="col-12" style="padding: 30px 0px; font-weight: bolder;">
+                &copy; Home2Hope 2025 | 405Found
+                <a href="index.html" style="text-decoration: none;">About Us</a>
+            </div>
+        </footer>
+
+        <!-- Scripts -->
+        <!-- Keep only necessary scripts; removed Firebase and missing JS references -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
+
+        <!-- Shared frontend app logic (auth, nav update, etc.) -->
+        <script src="/app.js"></script>
+
+        <!-- Local submit handler: minimal, tolerant, sends to Flask backend -->
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const addBtn = document.getElementById('btnAddProduct');
+
+  function getValue(ids){
+    for(const id of ids){
+      const el = document.getElementById(id);
+      if(el) return (el.value||'').trim();
+    }
+    return '';
+  }
+
+  addBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const title = getValue(['prodName','prod_title','name']);
+    const category = getValue(['categoryList','category']);
+    const description = getValue(['prodDesc','prod_desc','description']);
+    const price = getValue(['prodPrice','prod_price','price']);
+    const negotiableEl = document.getElementById('prodNeg');
+    const negotiable = negotiableEl ? negotiableEl.checked : false;
+
+    if (!title) { alert('Product name is required'); return; }
+    if (!price) { alert('Product price is required'); return; }
+
+    // build FormData if file exists, otherwise fall back to JSON (keeps compatibility)
+    const fileInput = document.getElementById('prod_image_file');
+    const driveLink = getValue(['Dlink','prod_image_url','dlink']);
+    let fetchOptions = { method:'POST', credentials:'include' };
+
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const fd = new FormData();
+      fd.append('title', title);
+      fd.append('category', category);
+      fd.append('description', description);
+      fd.append('price', price);
+      fd.append('negotiable', negotiable ? 'true' : 'false');
+      fd.append('image', fileInput.files[0]); // field name 'image' expected by backend
+      fetchOptions.body = fd;
+      // don't set Content-Type header; browser will set boundary for multipart
+    } else {
+      // no file: send JSON (and include drive link if provided)
+      fetchOptions.headers = { 'Content-Type':'application/json' };
+      fetchOptions.body = JSON.stringify({
+        title, category, description, price, negotiable,
+        image_url: driveLink || ''
+      });
+    }
+
+    try {
+      const res = await fetch('/api/products', fetchOptions);
+      const data = await res.json().catch(()=>({}));
+      console.log('create product', res.status, data);
+      if (res.status === 201 || res.ok) {
+        alert('Product added successfully');
+        window.location.href = '/buy-products.html';
+      } else if (res.status === 401) {
+        alert('Login required');
+        window.location.href = '/login.html';
+      } else {
+        alert(data.error || 'Could not add product');
+      }
+    } catch (err) {
+      console.error('Network error', err);
+      alert('Network/server error (see console)');
+    }
+  });
+});
+</script>
+
+
+</body>
+
+</html>

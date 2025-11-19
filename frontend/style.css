@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; margin: 24px; }
+input { display:block; margin:8px 0; padding:6px; width:300px; }
+button { padding:6px 12px; margin-top:8px; }
+#userInfo { margin-top: 16px; }
