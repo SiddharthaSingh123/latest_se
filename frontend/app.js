@@ -1,7 +1,10 @@
 // frontend/app.js
 
-// Base API path (same origin)
-const API = '/api';
+// 🔹 Backend base URL on Render
+const API_BASE = "https://latest-se.onrender.com";
+
+// Base API path (goes to Render, not same origin)
+const API = `${API_BASE}/api`;
 
 // Helper: show messages if an element exists
 function showMsg(id, text) {
@@ -144,6 +147,17 @@ async function logoutUser() {
     credentials: 'include'
   });
 }
+
+// also support old onclick="logout(event)" in your HTML
+window.logout = async function (e) {
+  if (e && e.preventDefault) e.preventDefault();
+  try {
+    await logoutUser();
+  } catch (err) {
+    console.error('Logout error', err);
+  }
+  window.location.reload();
+};
 
 // ----------------- Current user / session -----------------
 async function fetchCurrentUser() {
