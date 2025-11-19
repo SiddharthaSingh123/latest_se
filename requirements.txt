@@ -6,3 +6,4 @@ Werkzeug==2.3.7
 stripe
 gunicorn
 psycopg2-binary
+cloudinary
