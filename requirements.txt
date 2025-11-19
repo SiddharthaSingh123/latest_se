@@ -5,3 +5,4 @@ Flask-Cors==4.0.1
 Werkzeug==2.3.7
 stripe
 gunicorn
+psycopg2-binary
